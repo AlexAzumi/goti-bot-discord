@@ -1,7 +1,4 @@
 {
   "prefix": "!",
-  "images": {
-    "ano-caliente": "https://i.ibb.co/DQdxqZd/Suano-2.png",
-    "darte-duro": "https://i.ibb.co/nDk86NB/darte-duro.png"
-  }
+  "api_url": "https://api.rawg.io/api"
 }
