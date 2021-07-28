@@ -1,6 +1,8 @@
 import Discord from 'discord.js'
 import fs from 'fs'
 import path from 'path'
+// Commons
+import logger from './src/commons/logger'
 // Bot configuration
 import config from './configuration.json'
 // Interfaces
@@ -11,7 +13,10 @@ const client = new Discord.Client()
 /**
  * The Discord is logged into the system
  */
-client.once('ready', () => console.log('My bot is ready!'))
+client.once('ready', () => {
+  logger.log({ level: 'info', message: 'The bot is ready' })
+  console.log('\nMy bot is ready!')
+})
 
 const commands = new Discord.Collection<string, Command>()
 

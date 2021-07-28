@@ -1,13 +1,14 @@
 import { AxiosResponse } from 'axios'
+import { Message } from 'discord.js'
 // Commons
 import axios from '../commons/axios'
+import logger from '../commons/logger'
 // Config
 import config from '../../configuration.json'
 // Interfaces
 import { Command } from '../interfaces/command.interface'
 import { GameInfo } from '../interfaces/game-info.interface'
 import { getGameInfoEmbed, getGameSearchEmbed } from '../helpers/game.helper'
-import { CollectorFilter, Message } from 'discord.js'
 
 export default [
   {
@@ -27,7 +28,9 @@ export default [
 
           message.channel.send(embedMessage)
         })
-        .catch(() => {
+        .catch((reason) => {
+          logger.log({ level: 'error', message: reason })
+
           message.channel.send(
             'Bip bup. El juego no existe o no fue encontrado. Bip bup'
           )
@@ -81,7 +84,9 @@ export default [
 
                     message.channel.send(gameEmbed)
                   })
-                  .catch(() => {
+                  .catch((reason) => {
+                    logger.log({ level: 'error', message: reason })
+
                     message.channel.send(
                       'Bip bup. Se generó un error al buscar el juego. Bip bup'
                     )
@@ -91,14 +96,16 @@ export default [
                   'Bip bup. El número ingresado no es válido. Bip bup'
                 )
               }
-            } catch (e) {
+            } catch {
               return message.channel.send(
                 'Bip bup. No seleccionaste una opción. Bip bup'
               )
             }
           })
         })
-        .catch(() => {
+        .catch((reason) => {
+          logger.log({ level: 'error', message: reason })
+
           message.channel.send(
             'Bip bup. El juego no existe o no fue encontrado. Bip bup'
           )
