@@ -1,28 +1,31 @@
-const Discord = require('discord.js')
-const fs = require('fs')
+import Discord from 'discord.js'
+import fs from 'fs'
+// Bot configuration
+import config from './configuration.json'
+// Interfaces
+import { Command } from './src/interfaces/command.interface'
 
 const client = new Discord.Client()
-
-// Bot configuration
-const config = require('./configuration.json')
 
 /**
  * The Discord is logged into the system
  */
 client.once('ready', () => console.log('My bot is ready!'))
 
-client.commands = new Discord.Collection()
+const commands = new Discord.Collection<string, Command>()
 
 // Read all commmand files
 const commandFiles = fs
-  .readdirSync('./commands')
+  .readdirSync('./src/commands')
   .filter((file) => file.endsWith('js'))
 
+console.log(commandFiles)
+
 for (const file of commandFiles) {
-  const fileCommands = require(`./commands/${file}`)
+  const fileCommands = require(`./src/commands/${file}`)
 
   for (const command of fileCommands) {
-    client.commands.set(command.name, command)
+    commands.set(command.name, command)
   }
 }
 
@@ -35,14 +38,14 @@ client.on('message', (message) => {
   }
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/)
-  const command = args.shift().toLowerCase()
+  const command = args.shift()?.toLowerCase() ?? ''
 
-  if (!client.commands.has(command)) {
+  if (!commands.has(command)) {
     return
   }
 
   try {
-    client.commands.get(command).execute(message, args)
+    commands.get(command)?.execute(message, args)
   } catch (error) {
     console.error(error)
     message.channel.send('Bip bup. Se ha generado un error. Bip bup')
