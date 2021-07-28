@@ -1,4 +1,6 @@
 const Discord = require('discord.js')
+const fs = require('fs')
+
 const client = new Discord.Client()
 
 // Bot configuration
@@ -9,6 +11,21 @@ const config = require('./configuration.json')
  */
 client.once('ready', () => console.log('My bot is ready!'))
 
+client.commands = new Discord.Collection()
+
+// Read all commmand files
+const commandFiles = fs
+  .readdirSync('./commands')
+  .filter((file) => file.endsWith('js'))
+
+for (const file of commandFiles) {
+  const fileCommands = require(`./commands/${file}`)
+
+  for (const command of fileCommands) {
+    client.commands.set(command.name, command)
+  }
+}
+
 /**
  * The Discord bot received a message
  */
@@ -17,25 +34,18 @@ client.on('message', (message) => {
     return
   }
 
-  switch (message.content) {
-    /**
-     * Dany is way to horny
-     */
-    case '!caliente': {
-      message.channel.send('Anda caliente', {
-        files: [config.images['ano-caliente']],
-      })
+  const args = message.content.slice(config.prefix.length).trim().split(/ +/)
+  const command = args.shift().toLowerCase()
 
-      break
-    }
+  if (!client.commands.has(command)) {
+    return
+  }
 
-    case '!duro': {
-      message.channel.send('Quiere darle bien duro', {
-        files: [config.images['darte-duro']],
-      })
-
-      break
-    }
+  try {
+    client.commands.get(command).execute(message, args)
+  } catch (error) {
+    console.error(error)
+    message.channel.send('Bip bup. Se ha generado un error. Bip bup')
   }
 })
 
