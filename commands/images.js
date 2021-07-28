@@ -15,7 +15,7 @@ module.exports = [
           files: [config.images['ano-caliente']],
         })
       } else {
-        message.channeñ.send(
+        message.channel.send(
           `${message.author} dice que a ${taggedUser} se le calentó suano`,
           {
             files: [config.images['ano-caliente']],
