@@ -1,4 +1,5 @@
 {
   "prefix": "!",
-  "api_url": "https://api.rawg.io/api"
+  "api_url": "https://api.rawg.io/api",
+  "limit": 5
 }
