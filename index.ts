@@ -1,5 +1,6 @@
 import Discord from 'discord.js'
 import fs from 'fs'
+import path from 'path'
 // Bot configuration
 import config from './configuration.json'
 // Interfaces
@@ -16,13 +17,16 @@ const commands = new Discord.Collection<string, Command>()
 
 // Read all commmand files
 const commandFiles = fs
-  .readdirSync('./src/commands')
+  .readdirSync(path.join(__dirname, 'src', 'commands'))
   .filter((file) => file.endsWith('js'))
 
-console.log(commandFiles)
-
 for (const file of commandFiles) {
-  const fileCommands = require(`./src/commands/${file}`)
+  const fileCommands = require(path.join(
+    __dirname,
+    'src',
+    'commands',
+    file
+  )).default
 
   for (const command of fileCommands) {
     commands.set(command.name, command)
