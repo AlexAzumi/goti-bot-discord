@@ -38,7 +38,7 @@ export default [
     },
   },
   {
-    name: 'search-game',
+    name: 'game',
     description: 'Busca juegos en la base de datos de RAWG',
     async execute(message, args) {
       if (!args[0]) {

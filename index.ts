@@ -55,8 +55,16 @@ client.on('message', (message) => {
 
   try {
     commands.get(command)?.execute(message, args)
+
+    const logToConsole = `${new Date().toISOString()} | Command: ${command} | Args: ${args.map(
+      (item) => item
+    )}`
+
+    logger.log('info', logToConsole)
+    console.log(logToConsole)
   } catch (error) {
-    console.error(error)
+    logger.log('error', error)
+
     message.channel.send('Bip bup. Se ha generado un error. Bip bup')
   }
 })
