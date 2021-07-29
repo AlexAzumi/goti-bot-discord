@@ -8,6 +8,8 @@ import { GameInfo } from '../interfaces/game-info.interface'
  */
 export const getGameInfoEmbed = (game: GameInfo): MessageEmbed => {
   let gamePlatforms = ''
+  let gameGenres = ''
+  let gameDevelopers = ''
 
   for (const platformData of game.platforms) {
     if (!gamePlatforms) {
@@ -17,10 +19,26 @@ export const getGameInfoEmbed = (game: GameInfo): MessageEmbed => {
     }
   }
 
+  for (const genre of game.genres) {
+    if (!gameGenres) {
+      gameGenres = genre.name
+    } else {
+      gameGenres += `, ${genre.name}`
+    }
+  }
+
+  for (const developer of game.developers) {
+    if (!gameDevelopers) {
+      gameDevelopers = developer.name
+    } else {
+      gameDevelopers += `, ${developer.name}`
+    }
+  }
+
   return new MessageEmbed()
     .setTitle(game.name)
     .setDescription(game.description_raw)
-    .setColor(game.dominant_color)
+    .setColor(`#${game.dominant_color}`)
     .setThumbnail(game.background_image)
     .addFields(
       {
@@ -29,7 +47,7 @@ export const getGameInfoEmbed = (game: GameInfo): MessageEmbed => {
       },
       {
         name: 'Fecha de lazamiento',
-        value: game.released,
+        value: game.tba ? 'TBA' : game.released,
         inline: true,
       },
       {
@@ -43,6 +61,24 @@ export const getGameInfoEmbed = (game: GameInfo): MessageEmbed => {
         inline: true,
       }
     )
+    .addFields(
+      {
+        name: 'Géneros',
+        value: gameGenres,
+        inline: true,
+      },
+      {
+        name: 'Sitio web',
+        value: game.website,
+        inline: true,
+      },
+      {
+        name: 'Desarrollador(as)',
+        value: gameDevelopers,
+      }
+    )
+    .setImage(game.background_image_additional)
+    .setFooter('Information provista por RAWG')
 }
 
 /**
@@ -67,5 +103,5 @@ export const getGameSearchEmbed = (
     .setColor('#fffff')
     .addFields(gameFields)
     .setThumbnail(games[0].background_image)
-    .setFooter('Information obtenida de RAWG')
+    .setFooter('Information provista por RAWG')
 }

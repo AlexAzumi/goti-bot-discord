@@ -30,6 +30,11 @@ export interface GameInfo {
   background_image: string
 
   /**
+   * Aditional game background image URI
+   */
+  background_image_additional: string
+
+  /**
    * List of platform that the game is available for
    */
   platforms: Platform[]
@@ -48,6 +53,26 @@ export interface GameInfo {
    * ESRB rating data
    */
   esrb_rating: ESRB_Rating
+
+  /**
+   * TBA flag
+   */
+  tba: boolean
+
+  /**
+   * Game genres
+   */
+  genres: Genre[]
+
+  /**
+   * Game official website
+   */
+  website: string
+
+  /**
+   * Developers of the game
+   */
+  developers: Developer[]
 }
 
 export interface Platform {
@@ -58,6 +83,16 @@ export interface Platform {
 }
 
 export interface ESRB_Rating {
+  id: number
+  name: string
+}
+
+export interface Genre {
+  id: number
+  name: string
+}
+
+export interface Developer {
   id: number
   name: string
 }
