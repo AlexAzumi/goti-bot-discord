@@ -1,4 +1,4 @@
-import { Message } from 'discord.js'
+import { Client, Message } from 'discord.js'
 
 export interface Command {
   /**
@@ -16,5 +16,5 @@ export interface Command {
    * @param message - Discord message object
    * @param args - Command arguments
    */
-  execute(message: Message, args: string[]): void
+  execute(message: Message, args: string[], client: Client): void
 }

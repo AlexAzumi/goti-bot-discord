@@ -8,7 +8,13 @@ import config from './configuration.json'
 // Interfaces
 import { Command } from './src/interfaces/command.interface'
 
-const client = new Discord.Client()
+const client = new Discord.Client({
+  presence: {
+    activity: {
+      name: 'a ser un robot. Bip bup',
+    },
+  },
+})
 
 /**
  * The Discord is logged into the system
@@ -41,7 +47,15 @@ for (const file of commandFiles) {
 /**
  * The Discord bot received a message
  */
-client.on('message', (message) => {
+client.on('message', async (message) => {
+  if (message.content.toLocaleLowerCase().includes('dany')) {
+    const myEmoji = message.guild?.emojis.cache.find(
+      (emoji) => emoji.name === 'pinching_hand'
+    )
+
+    await message.react(myEmoji ?? '🤏')
+  }
+
   if (!message.content.startsWith(config.prefix) || message.author.bot) {
     return
   }
@@ -54,7 +68,7 @@ client.on('message', (message) => {
   }
 
   try {
-    commands.get(command)?.execute(message, args)
+    commands.get(command)?.execute(message, args, client)
 
     const logToConsole = `${new Date().toISOString()} | Command: ${command} | Args: ${args.map(
       (item) => item
@@ -65,7 +79,7 @@ client.on('message', (message) => {
   } catch (error) {
     logger.log('error', error)
 
-    message.channel.send('Bip bup. Se ha generado un error. Bip bup')
+    await message.channel.send('Bip bup. Se ha generado un error. Bip bup')
   }
 })
 
