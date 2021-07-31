@@ -55,12 +55,12 @@ export const getGameInfoEmbed = (game: GameInfo): MessageEmbed => {
       },
       {
         name: 'Metacritic',
-        value: game.metacritic,
+        value: game.metacritic ?? '-',
         inline: true,
       },
       {
         name: 'ESRB',
-        value: game.esrb_rating?.name ?? 'N/A',
+        value: game.esrb_rating?.name ?? '-',
         inline: true,
       }
     )
