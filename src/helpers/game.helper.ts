@@ -1,4 +1,5 @@
 import { EmbedFieldData, MessageEmbed } from 'discord.js'
+// Interfaces
 import { GameInfo } from '../interfaces/game-info.interface'
 
 /**
@@ -35,6 +36,8 @@ export const getGameInfoEmbed = (game: GameInfo): MessageEmbed => {
     }
   }
 
+  console.log(gamePlatforms, gameGenres, gameDevelopers)
+
   return new MessageEmbed()
     .setTitle(game.name)
     .setDescription(game.description_raw)
@@ -69,7 +72,7 @@ export const getGameInfoEmbed = (game: GameInfo): MessageEmbed => {
       },
       {
         name: 'Sitio web',
-        value: game.website,
+        value: game.website ? game.website : '-',
         inline: true,
       },
       {
