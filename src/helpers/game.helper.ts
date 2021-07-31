@@ -36,8 +36,6 @@ export const getGameInfoEmbed = (game: GameInfo): MessageEmbed => {
     }
   }
 
-  console.log(gamePlatforms, gameGenres, gameDevelopers)
-
   return new MessageEmbed()
     .setTitle(game.name)
     .setDescription(game.description_raw)
