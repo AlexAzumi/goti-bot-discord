@@ -29,7 +29,9 @@ const commands = new Discord.Collection<string, Command>()
 // Read all commmand files
 const commandFiles = fs
   .readdirSync(path.join(__dirname, 'src', 'commands'))
-  .filter((file) => file.endsWith('ts'))
+  .filter((file) =>
+    file.endsWith(process.env.NODE_ENV?.trim() === 'dev' ? 'ts' : 'js')
+  )
 
 for (const file of commandFiles) {
   const fileCommands = require(path.join(
