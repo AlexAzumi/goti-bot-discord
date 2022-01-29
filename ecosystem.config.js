@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name   : "goti-boy",
-    script : "./app.ts"
+    script : "./index.ts"
   }]
 }
 
