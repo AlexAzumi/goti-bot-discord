@@ -1,6 +1,6 @@
 module.exports = {
   apps : [{
-    name   : "goti-boy",
+    name   : "goti-bot",
     script : "./index.ts"
   }]
 }
